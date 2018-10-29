@@ -123,9 +123,9 @@ Implement a better integration method that uses the current attitude estimate (r
     gPrime(1, 4) = dt;
     gPrime(2, 5) = dt;
 
-    gPrime(3, 6) = (accel.x * RbgPrime(0, 0) + accel.y * RbgPrime(0, 1) + accel.z * RbgPrime(0, 2)) * dt;
-    gPrime(4, 6) = (accel.x * RbgPrime(1, 0) + accel.y * RbgPrime(1, 1) + accel.z * RbgPrime(1, 2)) * dt;
-    gPrime(5, 6) = (accel.x * RbgPrime(2, 0) + accel.y * RbgPrime(2, 1) + accel.z * RbgPrime(2, 2)) * dt;
+    gPrime(3, 6) = (RbgPrime(0, 0) * accel.x * RbgPrime(0, 1) * accel.y * RbgPrime(0, 2) * accel.z) * dt;
+    gPrime(4, 6) = (RbgPrime(1, 0) * accel.x * RbgPrime(1, 1) * accel.y * RbgPrime(1, 2) * accel.z) * dt;
+    gPrime(5, 6) = (RbgPrime(2, 0) * accel.x * RbgPrime(2, 1) * accel.y * RbgPrime(2, 2) * accel.z) * dt;
 
     ekfCov = gPrime * ekfCov * gPrime.transpose() + Q;
 
