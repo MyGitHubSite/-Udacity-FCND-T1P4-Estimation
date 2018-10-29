@@ -117,6 +117,18 @@ Implement a better integration method that uses the current attitude estimate (r
 
 **Update of the State Covariance**  
 
+![g Prime Matrix](./images/gPrime.PNG)  
+
+    gPrime(0, 3) = dt;
+    gPrime(1, 4) = dt;
+    gPrime(2, 5) = dt;
+
+    gPrime(3, 6) = (accel.x * RbgPrime(0, 0) + accel.y * RbgPrime(0, 1) + accel.z * RbgPrime(0, 2)) * dt;
+    gPrime(4, 6) = (accel.x * RbgPrime(1, 0) + accel.y * RbgPrime(1, 1) + accel.z * RbgPrime(1, 2)) * dt;
+    gPrime(5, 6) = (accel.x * RbgPrime(2, 0) + accel.y * RbgPrime(2, 1) + accel.z * RbgPrime(2, 2)) * dt;
+
+    ekfCov = gPrime * ekfCov * gPrime.transpose() + Q;
+
 ---
 ## Step 4. Implement the magnetometer update.  
 
