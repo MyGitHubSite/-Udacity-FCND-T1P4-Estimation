@@ -62,14 +62,13 @@ Old Code:
 
 New Code:  
 
-	    Quaternion<float> quaternion;     
-	    Quaternion<float> quat = quaternion.FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
-	    Quaternion<float> quatEst = quaternion.IntegrateBodyRate(gyro, dtIMU) * quat;   
+    Quaternion<float> quaternion;     
+    Quaternion<float> quat = quaternion.FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
+    Quaternion<float> quatEst = quaternion.IntegrateBodyRate(gyro, dtIMU) * quat;   
 
-	    float predictedPitch = quatEst.Pitch();     // Get pitch from quaterion
-	    float predictedRoll = quatEst.Roll();       // Get roll from quaterion
-	    ekfState(6) = fmod(quatEst.Yaw(), F_PI);    // Get yaw from quaterion and normalize -pi to pi
-
+    float predictedPitch = quatEst.Pitch();     // Get pitch from quaterion
+    float predictedRoll = quatEst.Roll();       // Get roll from quaterion
+    ekfState(6) = fmod(quatEst.Yaw(), F_PI);    // Get yaw from quaterion and normalize -pi to pi
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
 
