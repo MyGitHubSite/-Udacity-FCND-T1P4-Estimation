@@ -45,7 +45,7 @@ From the statistics calculated I used GPS Std = 0.5 and acceleromter std = 0.7 r
 
 Plugging in the stds and running the 06sensors scenario the tests pass.  Here is a clip of the test.
 
-
+---
 **Step 2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.****
 
 *The improved integration scheme should result in an attitude estimator of < 0.1 rad for each of the Euler angles for a duration of at least 3 seconds during the simulation. The integration scheme should use quaternions to improve performance over the current simple integration scheme.*  
