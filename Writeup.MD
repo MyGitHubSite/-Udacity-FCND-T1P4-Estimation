@@ -14,9 +14,21 @@ You're reading it!
 
 The calculated standard deviation should correctly capture ~68% of the sensor measurements. Your writeup should describe the method used for determining the standard deviation given the simulated sensor measurements.
 
+The GPS sensor capture data with frequency 0.05 and accelerometer captures data at rate 0.1, so there are 20x more accelerometer points than GPS points.  From the lectures accelerometer data is more frequent but more uncertain.  GPS is less frequent but more reliable than acceleromoter.
+
+I changed the sensor simulation to capture over 1600 GPS points and 333000 Accelerometer points
+
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
 ![Accelerometer Measurements](./images/Accelerometer%20Measurements.png)  
+
+From the statistics calculated I used GPS Std = 0.5 and acceleromter std = 0.7 rounding.  These numbers in fact matched the sensors text mentioned in the readme.
+
+Plugging in the stds and running the 06sensors scenario the tests pass.  Here is a clip of the test.
+
+
+
+
 
 **2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.****
 
