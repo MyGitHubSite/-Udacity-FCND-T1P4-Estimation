@@ -50,6 +50,29 @@ Plugging in the stds and running the 06sensors scenario the tests pass.  Here is
 
 *The improved integration scheme should result in an attitude estimator of < 0.1 rad for each of the Euler angles for a duration of at least 3 seconds during the simulation. The integration scheme should use quaternions to improve performance over the current simple integration scheme.*  
 
+Old Code:  
+
+    float predictedPitch = pitchEst + dtIMU * gyro.y;
+    float predictedRoll = rollEst + dtIMU * gyro.x;
+    ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw
+    
+    //normalize yaw to -pi .. pi
+    if (ekfState(6) > F_PI) ekfState(6) -= 2.f*F_PI;
+    if (ekfState(6) < -F_PI) ekfState(6) += 2.f*F_PI;
+
+New Code:  
+
+	    Quaternion<float> quaternion;     
+	    Quaternion<float> quat = quaternion.FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
+	    Quaternion<float> quatEst = quaternion.IntegrateBodyRate(gyro, dtIMU) * quat;   
+
+	    float predictedPitch = quatEst.Pitch();     // Get pitch from quaterion
+	    float predictedRoll = quatEst.Roll();       // Get roll from quaterion
+	    ekfState(6) = fmod(quatEst.Yaw(), F_PI);    // Get yaw from quaterion and normalize -pi to pi
+
+
+![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
+
 **Step 3. Implement all of the elements of the prediction step for the estimator.**
 
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
