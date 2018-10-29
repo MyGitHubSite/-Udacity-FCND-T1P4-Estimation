@@ -22,6 +22,8 @@ I changed the sensor simulation to capture over 1600 GPS points and 333000 Accel
  
 ![Accelerometer Measurements](./images/Accelerometer%20Measurements.png)  
 
+![Jupyter Notebook Used to Generate Statistics](./GPS_Accelerometer_Measurements.ipynb)
+
 From the statistics calculated I used GPS Std = 0.5 and acceleromter std = 0.7 rounding.  These numbers in fact matched the sensors text mentioned in the readme.
 
 Plugging in the stds and running the 06sensors scenario the tests pass.  Here is a clip of the test.
