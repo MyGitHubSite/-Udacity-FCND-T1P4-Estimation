@@ -26,7 +26,7 @@ From the statistics calculated I used GPS Std = 0.5 and acceleromter std = 0.7 r
 
 Plugging in the stds and running the 06sensors scenario the tests pass.  Here is a clip of the test.
 
-![06_SensorNoise](./images/06_SensorNoise.mp4)  
+![06_SensorNoise](./images/06_SensorNoise.gif)  
 
 
 
