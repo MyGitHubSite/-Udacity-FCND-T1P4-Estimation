@@ -96,6 +96,8 @@ Implement a better integration method that uses the current attitude estimate (r
 
 **Calculation of the Rgb Prime Matrix:**  
 
+![Rgb Prime Matrix](./images/RgbPrime.PNG)  
+
     float phi = pitch;
     float theta = roll;
     float psi = yaw;
@@ -104,13 +106,14 @@ Implement a better integration method that uses the current attitude estimate (r
     RbgPrime(1, 0) =  cos(theta)*cos(psi);
     RbgPrime(2, 0) = 0;
 
-    RbgPrime(0, 1) = -sin(phi)*sin(theta)*sin(psi) - cos(phi)*cos(psi);
-    RbgPrime(1, 1) =  sin(phi)*sin(theta)*cos(psi) - cos(phi)*sin(psi);
+    RbgPrime(0, 1) = -sin(phi)*sin(theta)*sin(psi) - cos(theta)*cos(psi);
+    RbgPrime(1, 1) =  sin(phi)*sin(theta)*cos(psi) - cos(theta)*sin(psi);
     RbgPrime(2, 1) = 0;
 
-    RbgPrime(0, 2) = -cos(phi)*sin(theta)*sin(psi) + sin(phi)*cos(psi);
-    RbgPrime(1, 2) =  cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi);
+    RbgPrime(0, 2) = -cos(phi)*sin(theta)*sin(psi) + sin(theta)*cos(psi);
+    RbgPrime(1, 2) =  cos(phi)*sin(theta)*cos(psi) + sin(theta)*sin(psi);
     RbgPrime(2, 2) = 0;
+
 
 **Update of the State Covariance**  
 
