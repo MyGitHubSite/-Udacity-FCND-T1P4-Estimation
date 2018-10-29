@@ -16,7 +16,7 @@ The calculated standard deviation should correctly capture ~68% of the sensor me
 
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
-![Accelerometer Measurements](./images/Acceleromater%20Measurements.png)  
+![Accelerometer Measurements](./images/Accelerometer%20Measurements.png)  
 
 **2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.****
 
