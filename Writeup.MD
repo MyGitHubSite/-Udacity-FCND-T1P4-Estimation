@@ -52,7 +52,7 @@ Plugging in the stds and running the 06sensors scenario the tests pass.  Here is
 
 Currently a small-angle approximation integration method is implemented.  The integrated (predicted) value is then updated in a complementary filter style with attitude information from accelerometers.
   
-*Old Code:*  
+**Old Code:**  
 
     float predictedPitch = pitchEst + dtIMU * gyro.y;
     float predictedRoll = rollEst + dtIMU * gyro.x;
@@ -64,7 +64,7 @@ Currently a small-angle approximation integration method is implemented.  The in
 
 Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
 
-*New Code:*  
+**New Code:**  
 
     Quaternion<float> quaternion;     
     Quaternion<float> quat = quaternion.FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
@@ -80,24 +80,39 @@ Implement a better integration method that uses the current attitude estimate (r
 
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
 
-*state update element (PredictState() function)*  
+**state update element (PredictState() function)**  
 
     V3F attitudeI = attitude.Rotate_BtoI(accel);                  //rotate vector from body to inertial frame
+    // Position
+    predictedState(0) = curState(0) + curState(3) * dt;           // x
+    predictedState(1) = curState(1) + curState(4) * dt;           // y
+    predictedState(2) = curState(2) + curState(5) * dt;           // z
+    // Velocity
+    predictedState(3) = curState(3) + attitudeI.x * dt;           // x_dot
+    predictedState(4) = curState(4) + attitudeI.y * dt;           // y_dot
+    predictedState(5) = curState(5) + (attitudeI.z - 9.81f) * dt; // z_dot
+    // Yaw
+    predictedState(6) = curState(6);                              // psi
 
-    predictedState(0) = curState(0) + curState(3) * dt;           // x_bar
-    predictedState(1) = curState(1) + curState(4) * dt;           // y_bar
-    predictedState(2) = curState(2) + curState(5) * dt;           // z_bar
+**Calculation of the Rgb Prime Matrix:**  
 
-    predictedState(3) = curState(3) + attitudeI.x * dt;           // x_dot_bar
-    predictedState(4) = curState(4) + attitudeI.y * dt;           // y_dot_bar
-    predictedState(5) = curState(5) + (attitudeI.z - 9.81f) * dt; // z_dot_bar
+    float phi = pitch;
+    float theta = roll;
+    float psi = yaw;
 
-    predictedState(6) = curState(6);                              // psi_bar
+    RbgPrime(0, 0) = -cos(theta)*sin(psi);
+    RbgPrime(1, 0) =  cos(theta)*cos(psi);
+    RbgPrime(2, 0) = 0;
 
-*calculation of the Rgb prime matrix*  
+    RbgPrime(0, 1) = -sin(phi)*sin(theta)*sin(psi) - cos(phi)*cos(psi);
+    RbgPrime(1, 1) =  sin(phi)*sin(theta)*cos(psi) - cos(phi)*sin(psi);
+    RbgPrime(2, 1) = 0;
 
+    RbgPrime(0, 2) = -cos(phi)*sin(theta)*sin(psi) + sin(phi)*cos(psi);
+    RbgPrime(1, 2) =  cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi);
+    RbgPrime(2, 2) = 0;
 
-*update of the state covariance*  
+**Update of the State Covariance**  
 
 
 **Step 4. Implement the magnetometer update.**
