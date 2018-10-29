@@ -50,6 +50,8 @@ Plugging in the stds and running the 06sensors scenario the tests pass.  Here is
 
 *The improved integration scheme should result in an attitude estimator of < 0.1 rad for each of the Euler angles for a duration of at least 3 seconds during the simulation. The integration scheme should use quaternions to improve performance over the current simple integration scheme.*  
 
+Currently a small-angle approximation integration method is implemented.  The integrated (predicted) value is then updated in a complementary filter style with attitude information from accelerometers.
+  
 Old Code:  
 
     float predictedPitch = pitchEst + dtIMU * gyro.y;
@@ -59,6 +61,8 @@ Old Code:
     //normalize yaw to -pi .. pi
     if (ekfState(6) > F_PI) ekfState(6) -= 2.f*F_PI;
     if (ekfState(6) < -F_PI) ekfState(6) += 2.f*F_PI;
+
+Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
 
 New Code:  
 
