@@ -97,6 +97,11 @@ Implement a better integration method that uses the current attitude estimate (r
     predictedState(4) = curState(4) + accel_i.y * dt;             // y_dot_bar
     predictedState(5) = curState(5) + (accel_i.z - 9.81f) * dt;   // z_dot_bar
 
+![Predict State Before](./images/Predict_State_Before.PNG)
+![Predict State After](./images/Predict_State_After.PNG)
+
+![Predict_State](./images/Predict_State_Before.gif)  
+
 **Calculation of the Rgb Prime Matrix:**  
 
 ![Rgb Prime Matrix](./images/RgbPrime.PNG)  
@@ -136,13 +141,14 @@ Implement a better integration method that uses the current attitude estimate (r
     gPrimeT.transposeInPlace();
     ekfCov = gPrime * ekfCov * gPrimeT + Q;
 
-![Predict State Before](./images/Predict_State_Before.PNG)
-![Predict State After](./images/Predict_State_After.PNG)
+Paramter Update:
+
+    QPosXYStd = .03  # 0.5
+
 ![Predict Covariance Before](./images/Predict_Covariance_Before.PNG)
 ![Predict Covariance After](./images/Predict_Covariance_After.PNG)
+![Predict_Covariance](./images/Predict_Covariance.gif)  
 
-![Predict_State_Before](./images/Predict_State_Before.png)  
-![Predict_State_Before](./images/Predict_State_Before.png)  
 ---
 #### Step 4. Implement the Magnetometer Update.  
 ---
@@ -168,6 +174,13 @@ Code:
     else if (yawDiff < -F_PI) {
 	   zFromX(0) -= 2.f*F_PI;
     }
+
+Parameter Update:
+
+    QYawStd = .08   # .05
+
+
+
 
 ---  
 #### Step 5. Implement the GPS update.  
