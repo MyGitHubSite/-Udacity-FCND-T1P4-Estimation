@@ -16,11 +16,11 @@ In this project, the estimation portion of the controller used in the CPP simula
 #### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
 ---
 
-I changed the sensor simulation to capture over 1600 GPS points and 333000 Accelerometer points
+I changed the sensor simulation to capture over 1,600 GPS points and 32,0000 Accelerometer points.
 
 *Process the logged files config/log/Graph1.txt (GPS X data) and config/log/Graph2.txt (Accelerometer X data) to figure out the standard deviation of the the GPS X signal and the IMU Accelerometer X signal.*  
 
-From the statistics calculated I used GPS Std = 0.706 and acceleromter std = 0.501 rounding.  
+The calculated GPS Standard Deviation was 0.706 and acceleromter standard deviation was 0.501.  
 
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
@@ -30,22 +30,15 @@ From the statistics calculated I used GPS Std = 0.706 and acceleromter std = 0.5
 
  *Plug in your result into the top of config/6_Sensornoise.txt. Specially, set the values for MeasuredStdDev_GPSPosXY and MeasuredStdDev_AccelXY to be the values you have calculated.*  
  
-Plugging in the stds.
+The standard deviations were updated in config/6_Sensornoise.txt,  
 
 *Run the simulator. If your values are correct, the dashed lines in the simulation will eventually turn green, indicating you’re capturing approx 68% of the respective measurements (which is what we expect within +/- 1 sigma bound for a Gaussian noise model)*  
+
+The simulutor passed the Sensor Noise test.
 
 ![06_Sensor Noise Simul;ation Results](./images/06_SensorNoise_Sim.PNG)  
 
 ![06_SensorNoise](./images/06_SensorNoise.gif)  
-
-
-
-
-
-
-
-
-
 
 ---
 #### Step 2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.  
