@@ -1,6 +1,16 @@
 
 # Building an Estimator (WORK IN PROGRESS)
 
+In this project, estimation portion of the controller used in the CPP simulator needs to be developed. By the end of the project, the simulated quadrotor will be flying with the estimator and the custom controller from the previous project.
+
+The Tasks:
+  Step 1: Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.  
+  Step 2: Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.  
+  Step 3: Implement all of the elements of the prediction step for the estimator.  
+  Step 4: Implement the magnetometer update.  
+  Step 5: Implement the GPS update.  
+  Step 6: De-tune the controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.  
+  
 ### A. Writeup
 
 Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf.
