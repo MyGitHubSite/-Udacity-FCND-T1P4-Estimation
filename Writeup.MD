@@ -41,7 +41,7 @@ The standard deviations were updated in config/6_Sensornoise.txt.
 
 ![06_SensorNoise](./images/06_SensorNoise.gif)  
 
-The simulutor passed the Sensor Noise test.
+The simulator passed the Sensor Noise test.
 
 ![06_Sensor Noise Simulation Results](./images/06_SensorNoise_Sim.PNG)  
 
