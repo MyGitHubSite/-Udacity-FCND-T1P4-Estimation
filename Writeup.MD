@@ -87,16 +87,10 @@ Implement a better integration method that uses the current attitude estimate (r
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
 
 **State Update Element (PredictState() Function)**  
-  
-  // Predict the current state forward by time dt using current accelerations and body rates as input
-  // INPUTS: 
-  //   curState: starting state
-  //   dt: time step to predict forward by [s]
-  //   accel: acceleration of the vehicle, in body frame, *not including gravity* [m/s2]
-  
+    
 Transition Function:
 
-![Transition Function](./images/Transition_Function.PNG)
+![Transition Function](./images/Transition_Function.png)
 
     V3F accel_i = attitude.Rotate_BtoI(accel);                  //rotate vector from body to inertial frame
 
