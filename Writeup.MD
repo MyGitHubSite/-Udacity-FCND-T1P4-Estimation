@@ -106,9 +106,9 @@ Implement a better integration method that uses the current attitude estimate (r
 ![Predict State Before](./images/Predict_State_Before.PNG)
 ![Predict State After](./images/Predict_State_After.PNG)
 
-![Predict_State](./images/Predict_State_Before.gif)  
+![Predict_State](./images/Predict_State_Before.GIF)  
 
-![]{./images/08_Predicted_State.GIF)
+![](./images/08_Predicted_State.GIF)
 
 **Calculation of the Rgb Prime Matrix:**  
 
@@ -155,7 +155,7 @@ Paramter Update:
 
 ![Predict Covariance Before](./images/Predict_Covariance_Before.PNG)
 ![Predict Covariance After](./images/Predict_Covariance_After.PNG)
-![Predict_Covariance](./images/Predict_Covariance.gif)  
+![Predict_Covariance](./images/Predict_Covariance.GIF)  
 
 ---
 #### Step 4. Implement the Magnetometer Update.  
@@ -188,10 +188,10 @@ Parameter Update:
     QYawStd = .08   # .05
 
 
-![]{./images/Mag_Yaw_Error_Before.PNG)
-![]{./images/Mag_Yaw_error_After.PNG)
-![]{./images/Mag_Update_Sim.PNG)
-![]{./images/10_MagUpdate.GIF)
+![](./images/Mag_Yaw_Error_Before.PNG)
+![](./images/Mag_Yaw_error_After.PNG)
+![](./images/Mag_Update_Sim.PNG)
+![](./images/10_MagUpdate.GIF)
 
 
 
@@ -221,10 +221,10 @@ Code:
     hPrime(4, 4) = 1;
     hPrime(5, 5) = 1;
 
-![]{./images/GPS_Update_Before.PNG)
-![]{./images/GPS_Update_After.PNG)
-![]{./images/11_GPS_Update_Sim.PNG)
-![]{./images/11_GPS_Update.GIF)
+![](./images/GPS_Update_Before.PNG)
+![](./images/GPS_Update_After.PNG)
+![](./images/11_GPS_Update_Sim.PNG)
+![](./images/11_GPS_Update.GIF)
 
 
 --- 
