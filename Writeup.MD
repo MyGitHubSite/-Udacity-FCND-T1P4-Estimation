@@ -135,9 +135,12 @@ Implement a better integration method that uses the current attitude estimate (r
 
 Code:  
 
-    hPrime(0, 6) = 1;
     zFromX(0) = ekfState(6);
-  
+    hPrime(0, 6) = 1;
+
+    // Normalize the Yaw Difference
+    // Error should be the short way around, not the long way.
+
     float yawDiff = magYaw - ekfState(6);
 
     if (yawDiff > F_PI) {
