@@ -78,7 +78,7 @@ The new code uses a better integration of the current attitude estimates (rollEs
 ![07_Attitude Error(Linear Estimation)](./images/Attitude_Error_Linear_Estimation.PNG)
 ![07_Attitude Error(Non-Linear Estimation)](./images/Attitude_Error_Non-Linear_Estimation.PNG)  
 
-Above on the left is the attitude error using the old code and on the right is the attitude error using the new code.  As can be seen the attitude errors are decreased for roll and pitch with the new code.
+Above on the left is the attitude error using the old code and on the right is the attitude error using the new code.
 
 The simulation was run...  
 
@@ -169,7 +169,7 @@ Above on the left is the predicted state before implementing the above code and 
     gPrimeT.transposeInPlace();
     ekfCov = gPrime * ekfCov * gPrimeT + Q;
 
-I updated the QPosXYZStd:  
+I updated QPosXYZStd:  
 
     QPosXYStd = 0.03  # updated from 0.5
 
@@ -177,10 +177,6 @@ I updated the QPosXYZStd:
 ![Predict Covariance After](./images/Predict_Covariance_After.PNG)  
 
 Above on the left is the covariance prediction before implementating the covariance state update and on the right is after implementation.  
-
-Here is the simulation:  
-
-![Predict_Covariance](./images/Predict_Covariance.GIF)  
 ---
 #### Step 4. Implement the Magnetometer Update.  
 ---
@@ -208,7 +204,7 @@ Here is the simulation:
 	   zFromX(0) -= 2.f*F_PI;
     }
 
-I updated the QYawStd:
+I updated QYawStd:
 
     QYawStd = 0.08  # updated from 0.05
 
