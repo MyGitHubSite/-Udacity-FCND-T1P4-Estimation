@@ -26,7 +26,7 @@ For better estimation of the standard deviations I changed the sensor simulation
 
 *Process the logged files config/log/Graph1.txt (GPS X data) and config/log/Graph2.txt (Accelerometer X data) to figure out the standard deviation of the the GPS X signal and the IMU Accelerometer X signal.*  
 
-The calculated GPS Standard Deviation was 0.706 and accelerometer standard deviation was 0.501.  
+The calculated GPS Standard Deviation was 0.706 and accelerometer standard deviation was 0.501.  The sampled GPS and accelerometer measurements were both approximately Gaussian as can be seen in the figures below.
 
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
@@ -39,11 +39,11 @@ The standard deviations were updated in config/6_Sensornoise.txt.
 
 *Run the simulator. If your values are correct, the dashed lines in the simulation will eventually turn green, indicating you’re capturing approx 68% of the respective measurements (which is what we expect within +/- 1 sigma bound for a Gaussian noise model)*  
 
-![06_Sensor Noise Simulation Results](./images/06_SensorNoise_Sim.PNG)  
+![06_SensorNoise](./images/06_SensorNoise.gif)  
 
 The simulutor passed the Sensor Noise test.
 
-![06_SensorNoise](./images/06_SensorNoise.gif)  
+![06_Sensor Noise Simulation Results](./images/06_SensorNoise_Sim.PNG)  
 
 ---
 #### Step 2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.  
@@ -58,12 +58,14 @@ The old code used a small-angle approximation integration method to update the p
     float predictedRoll = rollEst + dtIMU * gyro.x;
     ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw. 
 
-Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
+The new code uses a better integration of the current attitude estimates (rollEst, pitchEst and ekfState(6)).
 
-**New Code:**  
+**Formulas used:**  
 
 ![qt_bar](./images/qt_bar.PNG)
 ![Predicted_Pitch_Roll](./images/Predicted_Pitch_Roll.PNG)  
+
+**New Code:**  
 
     Quaternion<float> qt = Quaternion<float>::FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
     Quaternion<float> qt_bar = qt;
@@ -76,13 +78,13 @@ Implement a better integration method that uses the current attitude estimate (r
 ![07_Attitude Error(Linear Estimation)](./images/Attitude_Error_Linear_Estimation.PNG)
 ![07_Attitude Error(Non-Linear Estimation)](./images/Attitude_Error_Non-Linear_Estimation.PNG)  
 
-On the left is the linear approximation using the old code and the figure on the right is using the non-linear approximation with the new code.
+Above on the left is the attitude error using the old code and on the right is the attitude error using the new code.  As can be seen the attitude errors are decreased for roll and pitch with the new code.
 
-The simulation was run:  
+The simulation was run...  
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
 
-The simulation passed the test.  
+... and the simulation passed the test.  
 
 ![07_Attitude Estimation Simulation Results](./images/07_Attitude_Estimation_Sim.PNG)  
 
@@ -91,13 +93,15 @@ The simulation passed the test.
 ---
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
 
-**State Update Element (PredictState() Function)**  
+#### A. State Update Element (PredictState() Function)     
     
-Transition Function:
+**State transition function used:
 
 ![Transition Function](./images/Transition_Function.png)
 
-    V3F accel_i = attitude.Rotate_BtoI(accel);                  //rotate vector from body to inertial frame
+**Code:**  
+
+    V3F accel_i = attitude.Rotate_BtoI(accel);          //rotate vector from body to inertial frame
 
     predictedState(0) = curState(0) + curState(3) * dt;           // x_bar
     predictedState(1) = curState(1) + curState(4) * dt;           // y_bar
@@ -109,15 +113,19 @@ Transition Function:
 ![Predict State Before](./images/Predict_State_Before.PNG)
 ![Predict State After](./images/Predict_State_After.PNG)
 
-On the left is the predicted state before implementing the abpve code and on the right is the predicted state after implementation.
+Above on the left is the predicted state before implementing the above code and on the right is the predicted state after implementating the state transition function.
 
-![Predict_State](./images/Predict_State_Before.PNG)  
+**Simulation of the predicted state:**  
 
 ![Predicted State](./images/08_Predicted_State.GIF)
 
-**Calculation of the Rgb Prime Matrix:**  
+#### B. Calculation of the Rgb Prime Matrix:  
+
+**Formula used:**  
 
 ![Rgb Prime Matrix](./images/RgbPrime.PNG)  
+
+**Code:**  
 
     float phi = pitch;
     float theta = roll;
@@ -135,9 +143,13 @@ On the left is the predicted state before implementing the abpve code and on the
     RbgPrime(1, 2) =  cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi);
     RbgPrime(2, 2) = 0;
 
-**Update of the State Covariance**  
+#### C. Update of the State Covariance    
+
+**Formula used:**
 
 ![g Prime Matrix](./images/gPrime_Jacobian.PNG)  
+
+**Code:**  
 
     gPrime(0, 3) = dt;
     gPrime(1, 4) = dt;
@@ -146,32 +158,40 @@ On the left is the predicted state before implementing the abpve code and on the
     gPrime(3, 6) = (RbgPrime(0, 0) * accel.x * RbgPrime(0, 1) * accel.y * RbgPrime(0, 2) * accel.z) * dt;
     gPrime(4, 6) = (RbgPrime(1, 0) * accel.x * RbgPrime(1, 1) * accel.y * RbgPrime(1, 2) * accel.z) * dt;
     gPrime(5, 6) = (RbgPrime(2, 0) * accel.x * RbgPrime(2, 1) * accel.y * RbgPrime(2, 2) * accel.z) * dt;
-    
+
+**Formula used:**
+
 ![Extended Kalman Filter Predict](./images/EKF_Predict.PNG)  
+
+**Code:**  
 
     MatrixXf gPrimeT = gPrime;
     gPrimeT.transposeInPlace();
     ekfCov = gPrime * ekfCov * gPrimeT + Q;
 
-I had to update the QPosXYZStd to get the simulation to pass the tests.
+I updated the QPosXYZStd:  
 
     QPosXYStd = 0.03  # updated from 0.5
 
 ![Predict Covariance Before](./images/Predict_Covariance_Before.PNG)
 ![Predict Covariance After](./images/Predict_Covariance_After.PNG)  
 
-![Predict_Covariance](./images/Predict_Covariance.GIF)  
+Above on the left is the covariance prediction before implementating the covariance state update and on the right is after implementation.  
 
+Here is the simulation:  
+
+![Predict_Covariance](./images/Predict_Covariance.GIF)  
 ---
 #### Step 4. Implement the Magnetometer Update.  
 ---
 *The update should properly include the magnetometer data into the state. Note that the solution should make sure to correctly measure the angle error between the current state and the magnetometer value (error should be the short way around, not the long way).*  
 
+**Formulas used:**  
 
 ![ZfromX](./images/Mag_ZfromX.PNG)
 ![hPrime](./images/Mag_hPrime.PNG)  
 
-Code:  
+**Code:**  
 
     zFromX(0) = ekfState(6);
     hPrime(0, 6) = 1;
@@ -188,27 +208,33 @@ Code:
 	   zFromX(0) -= 2.f*F_PI;
     }
 
-I had to update the QYawStd to pass the tests:
+I updated the QYawStd:
 
     QYawStd = 0.08  # updated from 0.05
-
 
 ![](./images/Mag_Yaw_Error_Before.PNG)
 ![](./images/Mag_Yaw_error_After.PNG)  
 
-![](./images/Mag_Update_Sim.PNG)  
+Above on the left is the Yaw error before implementing the Magnatomoeter update and on the right is after implementation.
+
+Here is the simulation:  
 
 ![](./images/10_MagUpdate.GIF)
 
+The simulation passed the trests:  
+
+![](./images/Mag_Update_Sim.PNG)  
 ---  
 #### Step 5. Implement the GPS update.  
 ---
 *The estimator should correctly incorporate the GPS information to update the current state estimate.*  
 
+**Formulas used:**  
+
 ![ZfromX](./images/GPS_ZfromX.PNG)
 ![hPrime](./images/GPS_hPrime.PNG)  
 
-Code:  
+**Code:**  
 
     zFromX(0) = ekfState(0);
     zFromX(1) = ekfState(1);
@@ -227,9 +253,15 @@ Code:
 ![](./images/GPS_Update_Before.PNG)
 ![](./images/GPS_Update_After.PNG)  
 
-![](./images/11_GPS_Update_Sim.PNG)  
+Abover on the left is the ___ before the GPS update and on the right is after implementation.  
+
+Here is the simulation:  
 
 ![](./images/11_GPS_Update.GIF)
+
+The simulation passed the test:  
+
+![](./images/11_GPS_Update_Sim.PNG)  
 
 ---
 #### Step 6: Adding Your Controller
