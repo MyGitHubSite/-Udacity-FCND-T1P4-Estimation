@@ -22,7 +22,7 @@ In this project, the estimation portion of the controller used in the CPP simula
 #### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
 ---
 
-For better estimation of the standard deviations I changed the sensor simulation to capture over 1,600 GPS points and 32,000 Accelerometer points.
+For better estimation of the standard deviations I changed the sensor simulation to capture over 16,000 GPS points and 320,000 Accelerometer points.
 
 *Process the logged files config/log/Graph1.txt (GPS X data) and config/log/Graph2.txt (Accelerometer X data) to figure out the standard deviation of the the GPS X signal and the IMU Accelerometer X signal.*  
 
@@ -39,9 +39,9 @@ The standard deviations were updated in config/6_Sensornoise.txt.
 
 *Run the simulator. If your values are correct, the dashed lines in the simulation will eventually turn green, indicating you’re capturing approx 68% of the respective measurements (which is what we expect within +/- 1 sigma bound for a Gaussian noise model)*  
 
-The simulutor passed the Sensor Noise test.
-
 ![06_Sensor Noise Simulation Results](./images/06_SensorNoise_Sim.PNG)  
+
+The simulutor passed the Sensor Noise test.
 
 ![06_SensorNoise](./images/06_SensorNoise.gif)  
 
@@ -50,7 +50,7 @@ The simulutor passed the Sensor Noise test.
 ---
 *The improved integration scheme should result in an attitude estimator of < 0.1 rad for each of the Euler angles for a duration of at least 3 seconds during the simulation. The integration scheme should use quaternions to improve performance over the current simple integration scheme.*  
 
-Currently a small-angle approximation integration method is implemented.  The integrated (predicted) value is then updated in a complementary filter style with attitude information from accelerometers.
+The old code used a small-angle approximation integration method to update the predicted attitude. 
 
 **Old Code:**  
 
@@ -78,9 +78,13 @@ Implement a better integration method that uses the current attitude estimate (r
 
 On the left is the linear approximation using the old code and the figure on the right is using the non-linear approximation with the new code.
 
-![07_Attitude Estimation Simulation Results](./images/07_Attitude_Estimation_Sim.PNG)  
+The simulation was run:  
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
+
+The simulation passed the test.  
+
+![07_Attitude Estimation Simulation Results](./images/07_Attitude_Estimation_Sim.PNG)  
 
 ---
 #### Step 3. Implement all of the elements of the prediction step for the estimator.  
@@ -107,7 +111,7 @@ Transition Function:
 
 On the left is the predicted state before implementing the abpve code and on the right is the predicted state after implementation.
 
-![Predict_State](./images/Predict_State_Before.GIF)  
+![Predict_State](./images/Predict_State_Before.PNG)  
 
 ![Predicted State](./images/08_Predicted_State.GIF)
 
@@ -130,7 +134,6 @@ On the left is the predicted state before implementing the abpve code and on the
     RbgPrime(0, 2) = -cos(phi)*sin(theta)*sin(psi) + sin(phi)*cos(psi);
     RbgPrime(1, 2) =  cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi);
     RbgPrime(2, 2) = 0;
-
 
 **Update of the State Covariance**  
 
