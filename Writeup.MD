@@ -56,23 +56,19 @@ Currently a small-angle approximation integration method is implemented.  The in
 
     float predictedPitch = pitchEst + dtIMU * gyro.y;
     float predictedRoll = rollEst + dtIMU * gyro.x;
-    ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw
-    
-    //normalize yaw to -pi .. pi
-    if (ekfState(6) > F_PI) ekfState(6) -= 2.f*F_PI;
-    if (ekfState(6) < -F_PI) ekfState(6) += 2.f*F_PI;
+    ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw. 
 
 Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
 
 **New Code:**  
+  
+    Quaternion<float> qt = Quaternion<float>::FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
+    Quaternion<float> qt_bar = qt;
+    qt_bar.IntegrateBodyRate(gyro, dtIMU);   
 
-    Quaternion<float> quaternion;     
-    Quaternion<float> quat = quaternion.FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
-    Quaternion<float> quatEst = quaternion.IntegrateBodyRate(gyro, dtIMU) * quat;   
-
-    float predictedPitch = quatEst.Pitch();     // Get pitch from quaterion
-    float predictedRoll = quatEst.Roll();       // Get roll from quaterion
-    ekfState(6) = fmod(quatEst.Yaw(), F_PI);    // Get yaw from quaterion and normalize -pi to pi
+    float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
+    float predictedRoll = qt_bar.Roll();       // Get roll from quaterion
+    ekfState(6) = qt_bar.Yaw();                // Get yaw from quaterion  
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
 ---
@@ -90,9 +86,7 @@ Implement a better integration method that uses the current attitude estimate (r
     // Velocity
     predictedState(3) = curState(3) + attitudeI.x * dt;           // x_dot
     predictedState(4) = curState(4) + attitudeI.y * dt;           // y_dot
-    predictedState(5) = curState(5) + (attitudeI.z - 9.81f) * dt; // z_dot
-    // Yaw
-    predictedState(6) = curState(6);                              // psi
+    predictedState(5) = curState(5) + (attitudeI.z - 9.81f) * dt; // z_dot. 
 
 **Calculation of the Rgb Prime Matrix:**  
 
