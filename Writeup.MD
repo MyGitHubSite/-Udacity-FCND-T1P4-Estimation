@@ -1,5 +1,11 @@
 
+
 # Building an Estimator (WORK IN PROGRESS)
+
+
+
+
+
 
 In this project, the estimation portion of the controller used in the CPP simulator needs to be developed. By the end of the project, the simulated quadrotor will be flying with the estimator and the custom controller from the previous project.
 
@@ -102,6 +108,8 @@ Implement a better integration method that uses the current attitude estimate (r
 
 ![Predict_State](./images/Predict_State_Before.gif)  
 
+![]{./images/08_Predicted_State.GIF)
+
 **Calculation of the Rgb Prime Matrix:**  
 
 ![Rgb Prime Matrix](./images/RgbPrime.PNG)  
@@ -180,6 +188,13 @@ Parameter Update:
     QYawStd = .08   # .05
 
 
+![]{./images/Mag_Yaw_Error_Before.PNG)
+![]{./images/Mag_Yaw_error_After.PNG)
+![]{./images/Mag_Update_Sim.PNG)
+![]{./images/10_MagUpdate.GIF)
+
+
+
 
 
 ---  
@@ -205,6 +220,12 @@ Code:
     hPrime(3, 3) = 1;
     hPrime(4, 4) = 1;
     hPrime(5, 5) = 1;
+
+![]{./images/GPS_Update_Before.PNG)
+![]{./images/GPS_Update_After.PNG)
+![]{./images/11_GPS_Update_Sim.PNG)
+![]{./images/11_GPS_Update.GIF)
+
 
 --- 
 ### C. Flight Evaluation
