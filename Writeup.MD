@@ -129,14 +129,65 @@ Implement a better integration method that uses the current attitude estimate (r
 
 *The update should properly include the magnetometer data into the state. Note that the solution should make sure to correctly measure the angle error between the current state and the magnetometer value (error should be the short way around, not the long way).*  
 
+
+
+
+
+
+    hPrime(0, 6) = 1;
+    zFromX(0) = ekfState(6);
+  
+    float yawDiff = magYaw - ekfState(6);
+
+    if (yawDiff > F_PI) {
+	   zFromX(0) += 2.f*F_PI;
+    }
+    else if (yawDiff < -F_PI) {
+	   zFromX(0) -= 2.f*F_PI;
+    }
+
+---  
 **Step 5. Implement the GPS update.**
 
 *The estimator should correctly incorporate the GPS information to update the current state estimate.*  
+
+
+
+
+    zFromX(0) = ekfState(0);
+    zFromX(1) = ekfState(1);
+    zFromX(2) = ekfState(2);
+    zFromX(3) = ekfState(3);
+    zFromX(4) = ekfState(4);
+    zFromX(5) = ekfState(5);
+  
+    hPrime(0, 0) = 1;
+    hPrime(1, 1) = 1;
+    hPrime(2, 2) = 1;
+    hPrime(3, 3) = 1;
+    hPrime(4, 4) = 1;
+    hPrime(5, 5) = 1;
 
 --- 
 ### C. Flight Evaluation
 
 *For each step of the project, the final estimator should be able to successfully meet the performance criteria with the controller provided. The estimator's parameters should be properly adjusted to satisfy each of the performance criteria elements.*  
 
-&De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
+De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
 
+
+    # Position control gains
+    kpPosXY = 30        # 40
+    kpPosZ = 20         # 55
+    KiPosZ = 50         # 50
+
+    # Velocity control gains
+    kpVelXY = 13        # 15
+    kpVelZ = 9          # 15
+
+    # Angle control gains
+    kpBank = 10         # 12    
+    kpYaw = 2           # 4     
+
+    # Angle rate gains
+    kpPQR = 85, 85, 6   # 40, 40, 10  
