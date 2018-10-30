@@ -34,6 +34,8 @@ Plugging in the stds.
 
 *Run the simulator. If your values are correct, the dashed lines in the simulation will eventually turn green, indicating you’re capturing approx 68% of the respective measurements (which is what we expect within +/- 1 sigma bound for a Gaussian noise model)*  
 
+![06_Sensor Noise Simul;ation Results](./images/06_SensorNoise_Sim.PNG)  
+
 ![06_SensorNoise](./images/06_SensorNoise.gif)  
 
 
