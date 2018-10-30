@@ -13,7 +13,7 @@ In this project, estimation portion of the controller used in the CPP simulator 
   Step 6: De-tune the controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.  
   
 ---
-### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
+#### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
 
 *For the controls project, the simulator was working with a perfect set of sensors, meaning none of the sensors had any noise. The first step to adding additional realism to the problem, and developing an estimator, is adding noise to the quad's sensors. For the first step, you will collect some simulated noisy sensor data and estimate the standard deviation of the quad's sensor.
 
