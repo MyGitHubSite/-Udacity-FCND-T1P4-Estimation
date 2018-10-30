@@ -12,14 +12,6 @@ In this project, estimation portion of the controller used in the CPP simulator 
   Step 5: Implement the GPS update.  
   Step 6: De-tune the controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.  
   
-### A. Writeup
-
-Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf.
-
-You're reading it!
-
----
-### B. Implement Estimator
 ---
 ### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
 
@@ -190,9 +182,10 @@ Code:
 
 *For each step of the project, the final estimator should be able to successfully meet the performance criteria with the controller provided. The estimator's parameters should be properly adjusted to satisfy each of the performance criteria elements.*  
 
-*De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
 ---
 ## Step 6: Adding Your Controller
+
+*De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
 
 Up to this point, we have been working with a controller that has been relaxed to work with an estimated state instead of a real state. So now, you will see how well your controller performs and de-tune your controller accordingly.
 
@@ -222,3 +215,5 @@ Success criteria: Your objective is to complete the entire simulation cycle with
 
     # Angle rate gains
     kpPQR = 85, 85, 6   # 40, 40, 10  
+
+
