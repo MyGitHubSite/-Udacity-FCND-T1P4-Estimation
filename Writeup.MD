@@ -45,27 +45,34 @@ The simulutor passed the Sensor Noise test.
 *The improved integration scheme should result in an attitude estimator of < 0.1 rad for each of the Euler angles for a duration of at least 3 seconds during the simulation. The integration scheme should use quaternions to improve performance over the current simple integration scheme.*  
 
 Currently a small-angle approximation integration method is implemented.  The integrated (predicted) value is then updated in a complementary filter style with attitude information from accelerometers.
-  
+
 **Old Code:**  
 
     float predictedPitch = pitchEst + dtIMU * gyro.y;
     float predictedRoll = rollEst + dtIMU * gyro.x;
     ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw. 
 
+![Linear ComplementaryFilter](./images/Linear_Complementary_Filter.PNG)  
 
 ![07_Attitude Error(Linear Estimation)](./images/Attitude_Error_Linear_Estimation.PNG)  
 
 Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
 
 **New Code:**  
+
+![qt_bar](./images/qt_bar.PNG)  
   
     Quaternion<float> qt = Quaternion<float>::FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
     Quaternion<float> qt_bar = qt;
     qt_bar.IntegrateBodyRate(gyro, dtIMU);   
 
+![Predicted_Pitch_Roll](./images/Predicted_Pitch_Roll.PNG)  
+
     float predictedRoll = qt_bar.Roll();       // Get roll from quaterion
     float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
     ekfState(6) = qt_bar.Yaw();                // Get yaw from quaterion  
+
+![Non-Linear Complementary Filter](./images/Non-Linear_Complementary_Filter.PNG)  
 
 ![07_Attitude Error(Non-Linear Estimation)](./images/Attitude_Error_Non-Linear_Estimation.PNG)  
 
