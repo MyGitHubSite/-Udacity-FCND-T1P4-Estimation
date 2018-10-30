@@ -19,7 +19,7 @@ In this project, the estimation portion of the controller used in the CPP simula
   Step 6: De-tune the controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.  
   
 ---
-#### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
+**Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.**
 ---
 
 For better estimation of the standard deviations I changed the sensor simulation to capture over 16,000 GPS points and 320,000 Accelerometer points.
@@ -48,13 +48,13 @@ The simulator passed the test.
 ![06_Sensor Noise Simulation Results](./images/06_SensorNoise_Sim.PNG)  
 
 ---
-#### Step 2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.  
+**Step 2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.**  
 ---
 *The improved integration scheme should result in an attitude estimator of < 0.1 rad for each of the Euler angles for a duration of at least 3 seconds during the simulation. The integration scheme should use quaternions to improve performance over the current simple integration scheme.*  
 
 The old code used a small-angle approximation integration method to update the predicted attitude. 
 
-**Old Code:**  
+Old Code:  
 
     float predictedPitch = pitchEst + dtIMU * gyro.y;
     float predictedRoll = rollEst + dtIMU * gyro.x;
@@ -62,12 +62,12 @@ The old code used a small-angle approximation integration method to update the p
 
 The new code uses a better integration of the current attitude estimates (rollEst, pitchEst and ekfState(6)).
 
-**Formulas used:**  
+Formulas used:  
 
 ![qt_bar](./images/qt_bar.PNG)
 ![Predicted_Pitch_Roll](./images/Predicted_Pitch_Roll.PNG)  
 
-**New Code:**  
+New Code:  
 
     Quaternion<float> qt = Quaternion<float>::FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
     Quaternion<float> qt_bar = qt;
@@ -91,17 +91,17 @@ The attitude estimation simulation was run...
 ![07_Attitude Estimation Simulation Results](./images/07_Attitude_Estimation_Sim.PNG)  
 
 ---
-#### Step 3. Implement all of the elements of the prediction step for the estimator.  
+**Step 3. Implement all of the elements of the prediction step for the estimator.**  
 ---
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
 
-#### A. State Update Element (PredictState() Function)     
+**A. State Update:**     
     
-**State transition function used:
+State transition function used:
 
 ![Transition Function](./images/Transition_Function.png)
 
-**Code:**  
+Code:  
 
     V3F accel_i = attitude.Rotate_BtoI(accel);          //rotate vector from body to inertial frame
 
@@ -121,13 +121,13 @@ Here is the simulation of the predicted state:
 
 ![Predicted State](./images/08_Predicted_State.gif)
 
-#### B. Calculation of the Rgb Prime Matrix:  
+**B. Calculation of the Rgb Prime Matrix:**  
 
-**Formula used:**  
+Formula used:  
 
 ![Rgb Prime Matrix](./images/RgbPrime.PNG)  
 
-**Code:**  
+Code:  
 
     float phi = pitch;
     float theta = roll;
@@ -145,13 +145,13 @@ Here is the simulation of the predicted state:
     RbgPrime(1, 2) =  cos(phi)*sin(theta)*cos(psi) + sin(phi)*sin(psi);
     RbgPrime(2, 2) = 0;
 
-#### C. Update of the State Covariance    
+**C. Update of the State Covariance**    
 
-**Formula used:**
+Formula used:
 
 ![g Prime Matrix](./images/gPrime_Jacobian.PNG)  
 
-**Code:**  
+Code:  
 
     gPrime(0, 3) = dt;
     gPrime(1, 4) = dt;
@@ -161,11 +161,11 @@ Here is the simulation of the predicted state:
     gPrime(4, 6) = (RbgPrime(1, 0) * accel.x * RbgPrime(1, 1) * accel.y * RbgPrime(1, 2) * accel.z) * dt;
     gPrime(5, 6) = (RbgPrime(2, 0) * accel.x * RbgPrime(2, 1) * accel.y * RbgPrime(2, 2) * accel.z) * dt;
 
-**Formula used:**
+Formula used:
 
 ![Extended Kalman Filter Predict](./images/EKF_Predict.PNG)  
 
-**Code:**  
+Code:  
 
     MatrixXf gPrimeT = gPrime;
     gPrimeT.transposeInPlace();
@@ -181,16 +181,16 @@ I updated QPosXYZStd:
 Above on the left is the covariance prediction before implementating the covariance state update and on the right is after implementation.  
 
 ---
-#### Step 4. Implement the Magnetometer Update.  
+**Step 4. Implement the Magnetometer Update.**  
 ---
 *The update should properly include the magnetometer data into the state. Note that the solution should make sure to correctly measure the angle error between the current state and the magnetometer value (error should be the short way around, not the long way).*  
 
-**Formulas used:**  
+Formulas used:  
 
 ![ZfromX](./images/Mag_ZfromX.PNG)
 ![hPrime](./images/Mag_hPrime.PNG)  
 
-**Code:**  
+Code:  
 
     zFromX(0) = ekfState(6);
     hPrime(0, 6) = 1;
@@ -212,11 +212,11 @@ I updated QYawStd:
     QYawStd = 0.08  # updated from 0.05
 
 ![](./images/Mag_Yaw_Error_Before.PNG)
-![](./images/Mag_Yaw_error_After.PNG)  
+![](./images/Mag_Yaw_Error_After.PNG)  
 
-Above on the left is the Yaw error before implementing the Magnatomoeter update and on the right is after implementation.
+Above on the left is the Yaw error before implementing the Magnetometer update and on the right is after implementation.
 
-Here is the simulation of the magnotometer update:  
+Here is the simulation of the magnetometer update:  
 
 ![](./images/10_MagUpdate.gif)
 
@@ -224,16 +224,16 @@ The simulation passed the trests:
 
 ![](./images/Mag_Update_Sim.PNG)  
 ---  
-#### Step 5. Implement the GPS update.  
+**Step 5. Implement the GPS update.**  
 ---
 *The estimator should correctly incorporate the GPS information to update the current state estimate.*  
 
-**Formulas used:**  
+Formulas used:  
 
 ![ZfromX](./images/GPS_ZfromX.PNG)
 ![hPrime](./images/GPS_hPrime.PNG)  
 
-**Code:**  
+Code:  
 
     zFromX(0) = ekfState(0);
     zFromX(1) = ekfState(1);
@@ -263,7 +263,7 @@ The simulation passed the test:
 ![](./images/11_GPS_Update_Sim.PNG)  
 
 ---
-#### Step 6: Adding Your Controller
+**Step 6: Adding Your Controller**
 ---
 *De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
 
