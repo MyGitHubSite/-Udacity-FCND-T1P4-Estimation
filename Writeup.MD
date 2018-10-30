@@ -26,7 +26,7 @@ For better estimation of the standard deviations I changed the sensor simulation
 
 *Process the logged files config/log/Graph1.txt (GPS X data) and config/log/Graph2.txt (Accelerometer X data) to figure out the standard deviation of the the GPS X signal and the IMU Accelerometer X signal.*  
 
-The calculated GPS Standard Deviation was 0.706 and acceleromter standard deviation was 0.501.  
+The calculated GPS Standard Deviation was 0.706 and accelerometer standard deviation was 0.501.  
 
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
@@ -58,29 +58,30 @@ Currently a small-angle approximation integration method is implemented.  The in
     float predictedRoll = rollEst + dtIMU * gyro.x;
     ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw. 
 
-![07_Attitude Error(Linear Estimation)](./images/Attitude_Error_Linear_Estimation.PNG)  
-
 Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
 
 **New Code:**  
 
-![qt_bar](./images/qt_bar.PNG)  
-  
+![qt_bar](./images/qt_bar.PNG)
+![Predicted_Pitch_Roll](./images/Predicted_Pitch_Roll.PNG)  
+
     Quaternion<float> qt = Quaternion<float>::FromEuler123_RPY(rollEst, pitchEst, ekfState(6));
     Quaternion<float> qt_bar = qt;
     qt_bar.IntegrateBodyRate(gyro, dtIMU);   
-
-![Predicted_Pitch_Roll](./images/Predicted_Pitch_Roll.PNG)  
 
     float predictedRoll = qt_bar.Roll();       // Get roll from quaterion
     float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
     ekfState(6) = qt_bar.Yaw();                // Get yaw from quaterion  
 
+![07_Attitude Error(Linear Estimation)](./images/Attitude_Error_Linear_Estimation.PNG)
 ![07_Attitude Error(Non-Linear Estimation)](./images/Attitude_Error_Non-Linear_Estimation.PNG)  
+
+On the left is the linear approximation using the old code and the figure on the right is using the non-linear approximation with the new code.
 
 ![07_Attitude Estimation Simulation Results](./images/07_Attitude_Estimation_Sim.PNG)  
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
+
 ---
 #### Step 3. Implement all of the elements of the prediction step for the estimator.  
 ---
@@ -104,9 +105,11 @@ Transition Function:
 ![Predict State Before](./images/Predict_State_Before.PNG)
 ![Predict State After](./images/Predict_State_After.PNG)
 
+On the left is the predicted state before implementing the abpve code and on the right is the predicted state after implementation.
+
 ![Predict_State](./images/Predict_State_Before.GIF)  
 
-![](./images/08_Predicted_State.GIF)
+![Predicted State](./images/08_Predicted_State.GIF)
 
 **Calculation of the Rgb Prime Matrix:**  
 
@@ -141,18 +144,19 @@ Transition Function:
     gPrime(4, 6) = (RbgPrime(1, 0) * accel.x * RbgPrime(1, 1) * accel.y * RbgPrime(1, 2) * accel.z) * dt;
     gPrime(5, 6) = (RbgPrime(2, 0) * accel.x * RbgPrime(2, 1) * accel.y * RbgPrime(2, 2) * accel.z) * dt;
     
-![Extended Kalman Filter Predit](./images/EKF_Predict.PNG)  
+![Extended Kalman Filter Predict](./images/EKF_Predict.PNG)  
 
     MatrixXf gPrimeT = gPrime;
     gPrimeT.transposeInPlace();
     ekfCov = gPrime * ekfCov * gPrimeT + Q;
 
-Paramter Update:
+I had to update the QPosXYZStd to get the simulation to pass the tests.
 
-    QPosXYStd = .03  # 0.5
+    QPosXYStd = 0.03  # updated from 0.5
 
 ![Predict Covariance Before](./images/Predict_Covariance_Before.PNG)
-![Predict Covariance After](./images/Predict_Covariance_After.PNG)
+![Predict Covariance After](./images/Predict_Covariance_After.PNG)  
+
 ![Predict_Covariance](./images/Predict_Covariance.GIF)  
 
 ---
@@ -161,7 +165,7 @@ Paramter Update:
 *The update should properly include the magnetometer data into the state. Note that the solution should make sure to correctly measure the angle error between the current state and the magnetometer value (error should be the short way around, not the long way).*  
 
 
-![ZfromX](./images/Mag_ZfromX.PNG)  
+![ZfromX](./images/Mag_ZfromX.PNG)
 ![hPrime](./images/Mag_hPrime.PNG)  
 
 Code:  
@@ -181,26 +185,24 @@ Code:
 	   zFromX(0) -= 2.f*F_PI;
     }
 
-Parameter Update:
+I had to update the QYawStd to pass the tests:
 
-    QYawStd = .08   # .05
+    QYawStd = 0.08  # updated from 0.05
 
 
 ![](./images/Mag_Yaw_Error_Before.PNG)
-![](./images/Mag_Yaw_error_After.PNG)
-![](./images/Mag_Update_Sim.PNG)
+![](./images/Mag_Yaw_error_After.PNG)  
+
+![](./images/Mag_Update_Sim.PNG)  
+
 ![](./images/10_MagUpdate.GIF)
-
-
-
-
 
 ---  
 #### Step 5. Implement the GPS update.  
 ---
 *The estimator should correctly incorporate the GPS information to update the current state estimate.*  
 
-![ZfromX](./images/GPS_ZfromX.PNG)  
+![ZfromX](./images/GPS_ZfromX.PNG)
 ![hPrime](./images/GPS_hPrime.PNG)  
 
 Code:  
@@ -220,15 +222,11 @@ Code:
     hPrime(5, 5) = 1;
 
 ![](./images/GPS_Update_Before.PNG)
-![](./images/GPS_Update_After.PNG)
-![](./images/11_GPS_Update_Sim.PNG)
+![](./images/GPS_Update_After.PNG)  
+
+![](./images/11_GPS_Update_Sim.PNG)  
+
 ![](./images/11_GPS_Update.GIF)
-
-
---- 
-### C. Flight Evaluation
-
-*For each step of the project, the final estimator should be able to successfully meet the performance criteria with the controller provided. The estimator's parameters should be properly adjusted to satisfy each of the performance criteria elements.*  
 
 ---
 #### Step 6: Adding Your Controller
