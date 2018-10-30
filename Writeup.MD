@@ -94,6 +94,10 @@ Implement a better integration method that uses the current attitude estimate (r
   //   dt: time step to predict forward by [s]
   //   accel: acceleration of the vehicle, in body frame, *not including gravity* [m/s2]
   
+Transition Function:
+
+![Transition Function](./images/Transition_Function.PNG)
+
     V3F accel_i = attitude.Rotate_BtoI(accel);                  //rotate vector from body to inertial frame
 
     predictedState(0) = curState(0) + curState(3) * dt;           // x_bar
