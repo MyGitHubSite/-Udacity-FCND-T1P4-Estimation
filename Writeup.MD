@@ -16,8 +16,11 @@ In this project, the estimation portion of the controller used in the CPP simula
 #### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
 ---
 
+I changed the sensor simulation to capture over 1600 GPS points and 333000 Accelerometer points
 
- - Process the logged files config/log/Graph1.txt (GPS X data) and config/log/Graph2.txt (Accelerometer X data) to figure out the standard deviation of the the GPS X signal and the IMU Accelerometer X signal.
+*Process the logged files config/log/Graph1.txt (GPS X data) and config/log/Graph2.txt (Accelerometer X data) to figure out the standard deviation of the the GPS X signal and the IMU Accelerometer X signal.*  
+
+From the statistics calculated I used GPS Std = 0.706 and acceleromter std = 0.501 rounding.  
 
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
@@ -25,26 +28,22 @@ In this project, the estimation portion of the controller used in the CPP simula
 
 ![Jupyter Notebook Used to Generate Statistics](./GPS_Accelerometer_Measurements.ipynb)
 
- - Plug in your result into the top of config/6_Sensornoise.txt. Specially, set the values for MeasuredStdDev_GPSPosXY and MeasuredStdDev_AccelXY to be the values you have calculated.
+ *Plug in your result into the top of config/6_Sensornoise.txt. Specially, set the values for MeasuredStdDev_GPSPosXY and MeasuredStdDev_AccelXY to be the values you have calculated.*  
+ 
+Plugging in the stds.
 
- - Run the simulator. If your values are correct, the dashed lines in the simulation will eventually turn green, indicating you’re capturing approx 68% of the respective measurements (which is what we expect within +/- 1 sigma bound for a Gaussian noise model)
+*Run the simulator. If your values are correct, the dashed lines in the simulation will eventually turn green, indicating you’re capturing approx 68% of the respective measurements (which is what we expect within +/- 1 sigma bound for a Gaussian noise model)*  
 
 ![06_SensorNoise](./images/06_SensorNoise.gif)  
 
-Success criteria: Your standard deviations should accurately capture the value of approximately 68% of the respective measurements.
-
-NOTE: Your answer should match the settings in SimulatedSensors.txt, where you can also grab the simulated noise parameters for all the other sensors.
-
-*The calculated standard deviation should correctly capture ~68% of the sensor measurements. Your writeup should describe the method used for determining the standard deviation given the simulated sensor measurements.*  
-
-The GPS sensor capture data with frequency 0.05 and accelerometer captures data at rate 0.1, so there are 20x more accelerometer points than GPS points.  From the lectures accelerometer data is more frequent but more uncertain.  GPS is less frequent but more reliable than acceleromoter.
-
-I changed the sensor simulation to capture over 1600 GPS points and 333000 Accelerometer points
 
 
-From the statistics calculated I used GPS Std = 0.5 and acceleromter std = 0.7 rounding.  These numbers in fact matched the sensors text mentioned in the readme.
 
-Plugging in the stds and running the 06sensors scenario the tests pass.  Here is a clip of the test.
+
+
+
+
+
 
 ---
 #### Step 2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.  
