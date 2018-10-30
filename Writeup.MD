@@ -25,7 +25,6 @@ The calculated GPS Standard Deviation was 0.706 and acceleromter standard deviat
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
 ![Accelerometer Measurements](./images/Accelerometer%20Measurements.png)  
-
 ![Jupyter Notebook Used to Generate Statistics](./GPS_Accelerometer_Measurements.ipynb)
 
  *Plug in your result into the top of config/6_Sensornoise.txt. Specially, set the values for MeasuredStdDev_GPSPosXY and MeasuredStdDev_AccelXY to be the values you have calculated.*  
@@ -64,8 +63,8 @@ Implement a better integration method that uses the current attitude estimate (r
     Quaternion<float> qt_bar = qt;
     qt_bar.IntegrateBodyRate(gyro, dtIMU);   
 
-    float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
     float predictedRoll = qt_bar.Roll();       // Get roll from quaterion
+    float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
     ekfState(6) = qt_bar.Yaw();                // Get yaw from quaterion  
 
 ![07_Attitude Error(Non-Linear Estimation)](./images/Attitude_Error_Non-Linear_Estimation.PNG)  
