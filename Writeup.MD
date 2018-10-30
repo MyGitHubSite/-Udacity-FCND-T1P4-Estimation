@@ -110,7 +110,7 @@ Implement a better integration method that uses the current attitude estimate (r
 
 **Update of the State Covariance**  
 
-![g Prime Matrix](./images/gPrime.PNG)  
+![g Prime Matrix](./images/gPrime(Jacobian).PNG)  
 
     gPrime(0, 3) = dt;
     gPrime(1, 4) = dt;
@@ -130,9 +130,10 @@ Implement a better integration method that uses the current attitude estimate (r
 *The update should properly include the magnetometer data into the state. Note that the solution should make sure to correctly measure the angle error between the current state and the magnetometer value (error should be the short way around, not the long way).*  
 
 
+![ZfromX](./images/Mag_ZfromX.PNG)  
+![hPrime](./images/Mag_hPrime.PNG)  
 
-
-
+Code:  
 
     hPrime(0, 6) = 1;
     zFromX(0) = ekfState(6);
@@ -151,8 +152,10 @@ Implement a better integration method that uses the current attitude estimate (r
 
 *The estimator should correctly incorporate the GPS information to update the current state estimate.*  
 
+![ZfromX](./images/GPS_ZfromX.PNG)  
+![hPrime](./images/GPS_hPrime.PNG)  
 
-
+Code:  
 
     zFromX(0) = ekfState(0);
     zFromX(1) = ekfState(1);
@@ -173,7 +176,21 @@ Implement a better integration method that uses the current attitude estimate (r
 
 *For each step of the project, the final estimator should be able to successfully meet the performance criteria with the controller provided. The estimator's parameters should be properly adjusted to satisfy each of the performance criteria elements.*  
 
-De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
+*De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
+---
+## Step 6: Adding Your Controller
+
+Up to this point, we have been working with a controller that has been relaxed to work with an estimated state instead of a real state. So now, you will see how well your controller performs and de-tune your controller accordingly.
+
+Replace QuadController.cpp with the controller you wrote in the last project.
+
+Replace QuadControlParams.txt with the control parameters you came up with in the last project.
+
+Run scenario 11_GPSUpdate. If your controller crashes immediately do not panic. Flying from an estimated state (even with ideal sensors) is very different from flying with ideal pose. You may need to de-tune your controller. Decrease the position and velocity gains (we’ve seen about 30% detuning being effective) to stabilize it. Your goal is to once again complete the entire simulation cycle with an estimated position error of < 1m.
+
+Hint: you may find it easiest to do your de-tuning as a 2 step process by reverting to ideal sensors and de-tuning under those conditions first.
+
+Success criteria: Your objective is to complete the entire simulation cycle with estimated position error of < 1m.
 
 
     # Position control gains
