@@ -218,3 +218,24 @@ Success criteria: Your objective is to complete the entire simulation cycle with
     kpPQR = 85, 85, 6   # 40, 40, 10  
 
 
+# Process noise model
+# note that the process covariance matrix is diag(pow(QStd,2))*dtIMU
+
+QPosXYStd = .03 # .05
+QPosZStd = .05  # .05
+QVelXYStd = .1  # .05
+QVelZStd = .1   # .1
+QYawStd = .08   # .05
+
+# GPS measurement std deviations
+GPSPosXYStd = 1
+GPSPosZStd = 100 #3
+GPSVelXYStd = .1
+GPSVelZStd = .3
+
+# Magnetometer
+MagYawStd = .1
+
+dtIMU = 0.002
+attitudeTau = 100
+
