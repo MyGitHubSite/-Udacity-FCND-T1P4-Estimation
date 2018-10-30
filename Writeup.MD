@@ -3,7 +3,8 @@
 
 In this project, estimation portion of the controller used in the CPP simulator needs to be developed. By the end of the project, the simulated quadrotor will be flying with the estimator and the custom controller from the previous project.
 
-The Tasks:
+**The Tasks:**  
+
   Step 1: Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.  
   Step 2: Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.  
   Step 3: Implement all of the elements of the prediction step for the estimator.  
