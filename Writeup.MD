@@ -117,7 +117,7 @@ Above on the left is the predicted state before implementing the above code and 
 
 **Simulation of the predicted state:**  
 
-![Predicted State](./images/08_Predicted_State.GIF)
+![Predicted State](./images/08_Predicted_State.gif)
 
 #### B. Calculation of the Rgb Prime Matrix:  
 
@@ -215,7 +215,7 @@ Above on the left is the Yaw error before implementing the Magnatomoeter update 
 
 Here is the simulation:  
 
-![](./images/10_MagUpdate.GIF)
+![](./images/10_MagUpdate.gif)
 
 The simulation passed the trests:  
 
@@ -253,7 +253,7 @@ Abover on the left is the ___ before the GPS update and on the right is after im
 
 Here is the simulation:  
 
-![](./images/11_GPS_Update.GIF)
+![](./images/11_GPS_Update.gif)
 
 The simulation passed the test:  
 
