@@ -39,9 +39,11 @@ The standard deviations were updated in config/6_Sensornoise.txt.
 
 *Run the simulator. If your values are correct, the dashed lines in the simulation will eventually turn green, indicating you’re capturing approx 68% of the respective measurements (which is what we expect within +/- 1 sigma bound for a Gaussian noise model)*  
 
+Here is the simulation of the sensor noise:  
+
 ![06_SensorNoise](./images/06_SensorNoise.gif)  
 
-The simulator passed the Sensor Noise test.
+The simulator passed the test.
 
 ![06_Sensor Noise Simulation Results](./images/06_SensorNoise_Sim.PNG)  
 
@@ -80,7 +82,7 @@ The new code uses a better integration of the current attitude estimates (rollEs
 
 Above on the left is the attitude error using the old code and on the right is the attitude error using the new code.
 
-The simulation was run...  
+The attitude estimation simulation was run...  
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
 
@@ -115,7 +117,7 @@ The simulation was run...
 
 Above on the left is the predicted state before implementing the above code and on the right is the predicted state after implementating the state transition function.
 
-**Simulation of the predicted state:**  
+Here is the simulation of the predicted state:  
 
 ![Predicted State](./images/08_Predicted_State.gif)
 
@@ -177,6 +179,7 @@ I updated QPosXYZStd:
 ![Predict Covariance After](./images/Predict_Covariance_After.PNG)  
 
 Above on the left is the covariance prediction before implementating the covariance state update and on the right is after implementation.  
+
 ---
 #### Step 4. Implement the Magnetometer Update.  
 ---
@@ -213,7 +216,7 @@ I updated QYawStd:
 
 Above on the left is the Yaw error before implementing the Magnatomoeter update and on the right is after implementation.
 
-Here is the simulation:  
+Here is the simulation of the magnotometer update:  
 
 ![](./images/10_MagUpdate.gif)
 
@@ -251,7 +254,7 @@ The simulation passed the trests:
 
 Abover on the left is the ___ before the GPS update and on the right is after implementation.  
 
-Here is the simulation:  
+Here is the simulation of the GPS update:  
 
 ![](./images/11_GPS_Update.gif)
 
