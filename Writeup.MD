@@ -136,10 +136,10 @@ Implement a better integration method that uses the current attitude estimate (r
     gPrimeT.transposeInPlace();
     ekfCov = gPrime * ekfCov * gPrimeT + Q;
 
-![Predict State Before](./images/Predict_State_Before.PNG)  
-![Predict State After](./images/Predict_State_After.PNG)  
-![Predict Covariance Before](./images/Predict_Covariance_Before.PNG)  
-![Predict Covariance After](./images/Predict_Covariance_After.PNG)  
+![Predict State Before](./images/Predict_State_Before.PNG)
+![Predict State After](./images/Predict_State_After.PNG)
+![Predict Covariance Before](./images/Predict_Covariance_Before.PNG)
+![Predict Covariance After](./images/Predict_Covariance_After.PNG)
 
 ![Predict_State_Before](./images/Predict_State_Before.png)  
 ![Predict_State_Before](./images/Predict_State_Before.png)  
