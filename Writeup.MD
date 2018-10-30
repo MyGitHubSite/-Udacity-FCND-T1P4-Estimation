@@ -78,15 +78,14 @@ Implement a better integration method that uses the current attitude estimate (r
 
 **State Update Element (PredictState() Function)**  
 
-    V3F attitudeI = attitude.Rotate_BtoI(accel);                  //rotate vector from body to inertial frame
-    // Position
-    predictedState(0) = curState(0) + curState(3) * dt;           // x
-    predictedState(1) = curState(1) + curState(4) * dt;           // y
-    predictedState(2) = curState(2) + curState(5) * dt;           // z
-    // Velocity
-    predictedState(3) = curState(3) + attitudeI.x * dt;           // x_dot
-    predictedState(4) = curState(4) + attitudeI.y * dt;           // y_dot
-    predictedState(5) = curState(5) + (attitudeI.z - 9.81f) * dt; // z_dot. 
+    V3F accel_i = attitude.Rotate_BtoI(accel);                  //rotate vector from body to inertial frame
+
+    predictedState(0) = curState(0) + curState(3) * dt;           // x_bar
+    predictedState(1) = curState(1) + curState(4) * dt;           // y_bar
+    predictedState(2) = curState(2) + curState(5) * dt;           // z_bar
+    predictedState(3) = curState(3) + accel_i.x * dt;             // x_dot_bar
+    predictedState(4) = curState(4) + accel_i.y * dt;             // y_dot_bar
+    predictedState(5) = curState(5) + (accel_i.z - 9.81f) * dt;   // z_dot_bar
 
 **Calculation of the Rgb Prime Matrix:**  
 
@@ -121,7 +120,9 @@ Implement a better integration method that uses the current attitude estimate (r
     gPrime(4, 6) = (RbgPrime(1, 0) * accel.x * RbgPrime(1, 1) * accel.y * RbgPrime(1, 2) * accel.z) * dt;
     gPrime(5, 6) = (RbgPrime(2, 0) * accel.x * RbgPrime(2, 1) * accel.y * RbgPrime(2, 2) * accel.z) * dt;
 
-    ekfCov = gPrime * ekfCov * gPrime.transpose() + Q;
+    MatrixXf gPrimeT = gPrime;
+    gPrimeT.transposeInPlace();
+    ekfCov = gPrime * ekfCov * gPrimeT + Q;
 
 ---
 ## Step 4. Implement the magnetometer update.  
