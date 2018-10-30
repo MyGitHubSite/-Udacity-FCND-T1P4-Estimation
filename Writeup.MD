@@ -136,6 +136,13 @@ Implement a better integration method that uses the current attitude estimate (r
     gPrimeT.transposeInPlace();
     ekfCov = gPrime * ekfCov * gPrimeT + Q;
 
+![Predict State Before](./images/Predict_State_Before.png)  
+![Predict State After](./images/Predict_State_After.png)  
+![Predict Covariance Before](./images/Predict_Covariance_Before.png)  
+![Predict Covariance After](./images/Predict_Covariance_After.png)  
+
+![Predict_State_Before](./images/Predict_State_Before.png)  
+![Predict_State_Before](./images/Predict_State_Before.png)  
 ---
 #### Step 4. Implement the Magnetometer Update.  
 ---
