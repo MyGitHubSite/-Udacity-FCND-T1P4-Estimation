@@ -53,6 +53,9 @@ Currently a small-angle approximation integration method is implemented.  The in
     float predictedRoll = rollEst + dtIMU * gyro.x;
     ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw. 
 
+
+![07_Attitude Estimation(Linear Estimation)](./images/Attitude_Estimation(Linear Estimation).PNG)  
+
 Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
 
 **New Code:**  
@@ -64,6 +67,10 @@ Implement a better integration method that uses the current attitude estimate (r
     float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
     float predictedRoll = qt_bar.Roll();       // Get roll from quaterion
     ekfState(6) = qt_bar.Yaw();                // Get yaw from quaterion  
+
+![07_Attitude Estimation(Non-Linear Estimation)](./images/Attitude_Estimation(Non-Linear Estimation).PNG)  
+
+![07_Attitude Estimation Simulation Results](./images/07_Attitude_Estimation_Sim.PNG)  
 
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
 ---
