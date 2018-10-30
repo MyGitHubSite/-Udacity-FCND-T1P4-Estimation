@@ -14,7 +14,7 @@ In this project, estimation portion of the controller used in the CPP simulator 
   
 ---
 #### Step 1. Determine the standard deviation of the measurement noise of both GPS X data and Accelerometer X data.
-
+---
 *For the controls project, the simulator was working with a perfect set of sensors, meaning none of the sensors had any noise. The first step to adding additional realism to the problem, and developing an estimator, is adding noise to the quad's sensors. For the first step, you will collect some simulated noisy sensor data and estimate the standard deviation of the quad's sensor.
 
  - Run the simulator in the same way as you have before and choose scenario 06_NoisySensors. In this simulation, the interest is to record some sensor data on a static quad, so you will not see the quad move. You will see two plots at the bottom, one for GPS X position and one for The accelerometer's x measurement. The dashed lines are a visualization of a single standard deviation from 0 for each signal. The standard deviations are initially set to arbitrary values (after processing the data in the next step, you will be adjusting these values). If they were set correctly, we should see ~68% of the measurement points fall into the +/- 1 sigma bound. When you run this scenario, the graphs you see will be recorded to the following csv files with headers: config/log/Graph1.txt (GPS X data) and config/log/Graph2.txt (Accelerometer X data).
@@ -50,7 +50,7 @@ Plugging in the stds and running the 06sensors scenario the tests pass.  Here is
 
 ---
 #### Step 2. Implement a better rate gyro attitude integration scheme in the UpdateFromIMU() function.  
-
+---
 *The improved integration scheme should result in an attitude estimator of < 0.1 rad for each of the Euler angles for a duration of at least 3 seconds during the simulation. The integration scheme should use quaternions to improve performance over the current simple integration scheme.*  
 
 Currently a small-angle approximation integration method is implemented.  The integrated (predicted) value is then updated in a complementary filter style with attitude information from accelerometers.
@@ -76,7 +76,7 @@ Implement a better integration method that uses the current attitude estimate (r
 ![07_AttitudeEstimation](./images/07_AttitudeEstimation.gif)  
 ---
 #### Step 3. Implement all of the elements of the prediction step for the estimator.  
-
+---
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
 
 **State Update Element (PredictState() Function)**  
@@ -129,7 +129,7 @@ Implement a better integration method that uses the current attitude estimate (r
 
 ---
 #### Step 4. Implement the magnetometer update.  
-
+---
 *The update should properly include the magnetometer data into the state. Note that the solution should make sure to correctly measure the angle error between the current state and the magnetometer value (error should be the short way around, not the long way).*  
 
 
@@ -155,7 +155,7 @@ Code:
 
 ---  
 #### Step 5. Implement the GPS update.  
-
+---
 *The estimator should correctly incorporate the GPS information to update the current state estimate.*  
 
 ![ZfromX](./images/GPS_ZfromX.PNG)  
@@ -184,7 +184,7 @@ Code:
 
 ---
 #### Step 6: Adding Your Controller
-
+---
 *De-tune your controller to successfully fly the final desired box trajectory with your estimator and realistic sensors.*  
 
 Up to this point, we have been working with a controller that has been relaxed to work with an estimated state instead of a real state. So now, you will see how well your controller performs and de-tune your controller accordingly.
@@ -199,6 +199,7 @@ Hint: you may find it easiest to do your de-tuning as a 2 step process by revert
 
 Success criteria: Your objective is to complete the entire simulation cycle with estimated position error of < 1m.
 
+**De-tuned Parameters:**  
 
     # Position control gains
     kpPosXY = 30        # 40
