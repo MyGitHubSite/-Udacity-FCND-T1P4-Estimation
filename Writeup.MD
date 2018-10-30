@@ -52,8 +52,6 @@ Currently a small-angle approximation integration method is implemented.  The in
     float predictedRoll = rollEst + dtIMU * gyro.x;
     ekfState(6) = ekfState(6) + dtIMU * gyro.z;	// yaw. 
 
-![Linear ComplementaryFilter](./images/Linear_Complementary_Filter.PNG)  
-
 ![07_Attitude Error(Linear Estimation)](./images/Attitude_Error_Linear_Estimation.PNG)  
 
 Implement a better integration method that uses the current attitude estimate (rollEst, pitchEst and ekfState(6))
@@ -72,8 +70,6 @@ Implement a better integration method that uses the current attitude estimate (r
     float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
     ekfState(6) = qt_bar.Yaw();                // Get yaw from quaterion  
 
-![Non-Linear Complementary Filter](./images/Non-Linear_Complementary_Filter.PNG)  
-
 ![07_Attitude Error(Non-Linear Estimation)](./images/Attitude_Error_Non-Linear_Estimation.PNG)  
 
 ![07_Attitude Estimation Simulation Results](./images/07_Attitude_Estimation_Sim.PNG)  
@@ -85,7 +81,7 @@ Implement a better integration method that uses the current attitude estimate (r
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
 
 
-![Extended Kalman Filter Predit](./images/EKF_Predict.PNG)  
+
 
 **State Update Element (PredictState() Function)**  
 
@@ -130,6 +126,8 @@ Implement a better integration method that uses the current attitude estimate (r
     gPrime(3, 6) = (RbgPrime(0, 0) * accel.x * RbgPrime(0, 1) * accel.y * RbgPrime(0, 2) * accel.z) * dt;
     gPrime(4, 6) = (RbgPrime(1, 0) * accel.x * RbgPrime(1, 1) * accel.y * RbgPrime(1, 2) * accel.z) * dt;
     gPrime(5, 6) = (RbgPrime(2, 0) * accel.x * RbgPrime(2, 1) * accel.y * RbgPrime(2, 2) * accel.z) * dt;
+    
+![Extended Kalman Filter Predit](./images/EKF_Predict.PNG)  
 
     MatrixXf gPrimeT = gPrime;
     gPrimeT.transposeInPlace();
