@@ -77,6 +77,9 @@ Implement a better integration method that uses the current attitude estimate (r
 ---
 *The prediction step should include the state update element (PredictState() function), a correct calculation of the Rgb prime matrix, and a proper update of the state covariance. The acceleration should be accounted for as a command in the calculation of gPrime. The covariance update should follow the classic EKF update equation.*  
 
+
+![Extended Kalman Filter Predit](./images/EKF_Predict.PNG)  
+
 **State Update Element (PredictState() Function)**  
 
     V3F accel_i = attitude.Rotate_BtoI(accel);                  //rotate vector from body to inertial frame
