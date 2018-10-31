@@ -277,7 +277,7 @@ Run scenario 11_GPSUpdate. If your controller crashes immediately do not panic. 
 
 Here is the GPS Update simulation after adding my controller from the previous project and before de-tuning the control parameters:
 
-![Step 6 GPS Update Simulation Before De-Tuning Parameters](./images/Step6_GPS_Update_Sim_Before.gif)
+![Step 6 GPS Update Simulation Before De-Tuning Parameters](./images/Step6_GPS_Update_Before.gif)
 
 A bit of luck of trial and error on the de-tuning - I decreased my position control gains by 50% and doubled my angle rate gains in order to pass the GPS Update.
 
@@ -291,7 +291,7 @@ kpPQR = 80, 80, 20 # updated from 40, 40, 10
 
 Here is the GPS Update simulation after adding my controller from the previous project and after de-tuning the control parameters:
 
-![Step 6 GPS Update Simulation After De-Tuning Parameters](./images/Step6_GPS_Update_Sim_After.gif)
+![Step 6 GPS Update Simulation After De-Tuning Parameters](./images/Step6_GPS_Update_After.gif)
 
 The simulation passed the test:
 
