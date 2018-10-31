@@ -1,6 +1,6 @@
 
 
-# Building an Estimator (WORK IN PROGRESS)
+# Building an Estimator  
 
 
 
