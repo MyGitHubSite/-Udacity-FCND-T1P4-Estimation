@@ -275,47 +275,64 @@ Replace QuadControlParams.txt with the control parameters you came up with in th
 
 Run scenario 11_GPSUpdate. If your controller crashes immediately do not panic. Flying from an estimated state (even with ideal sensors) is very different from flying with ideal pose. You may need to de-tune your controller. Decrease the position and velocity gains (we’ve seen about 30% detuning being effective) to stabilize it. Your goal is to once again complete the entire simulation cycle with an estimated position error of < 1m.
 
-Hint: you may find it easiest to do your de-tuning as a 2 step process by reverting to ideal sensors and de-tuning under those conditions first.
+Here is the GPS Update simulation after adding my controller from the previous project and before de-tuning the control parameters:
 
-Success criteria: Your objective is to complete the entire simulation cycle with estimated position error of < 1m.
+![Step 6 GPS Update Simulation Before De-Tuning Parameters](./images/Step6_GPS_Update_Sim_Before.gif)
 
-**De-tuned Parameters:**  
+A bit of luck of trial and error on the de-tuning - I decreased my position control gains by 50% and doubled my angle rate gains in order to pass the GPS Update.
+
+# Position control gains
+kpPosXY = 20 # updated from 40
+kpPosZ = 27.5 # updated from 55
+KiPosZ = 25 # updated from 50
+
+# Angle rate gains
+kpPQR = 80, 80, 20 # updated from 40, 40, 10  
+
+Here is the GPS Update simulation after adding my controller from the previous project and after de-tuning the control parameters:
+
+![Step 6 GPS Update Simulation After De-Tuning Parameters](./images/Step6_GPS_Update_Sim_After.gif)
+
+The simulation passed the test:
+
+![Step 6 GPS Update Simulation Results](./images/Step6_GPS_Update_Sim.PNG)
+
+---
+
+**Final Parameters:**  
+
+QuadControlParams.txt  
 
     # Position control gains
-    kpPosXY = 30        # 40
-    kpPosZ = 20         # 55
-    KiPosZ = 50         # 50
+    kpPosXY = 20 # updated from 40
+    kpPosZ = 27.5 # updated from 55
+    KiPosZ = 25 # updated from 50
 
     # Velocity control gains
-    kpVelXY = 13        # 15
-    kpVelZ = 9          # 15
+    kpVelXY = 15
+    kpVelZ = 15
 
     # Angle control gains
-    kpBank = 10         # 12    
-    kpYaw = 2           # 4     
+    kpBank = 12    
+    kpYaw = 4     
 
     # Angle rate gains
-    kpPQR = 85, 85, 6   # 40, 40, 10  
+    kpPQR = 80, 80, 20 # updated from 40, 40, 10  
+
+QuadEstimatorEKF.txt  
+
+    QPosXYStd = .03  # updated from .05
+    QPosZStd = .05
+    QVelXYStd = .05
+    QVelZStd = .1
+    QYawStd = .08    # updated from .05
+
+    # GPS measurement std deviations
+    GPSPosXYStd = 1
+    GPSPosZStd =  3 
+    GPSVelXYStd = .1
+    GPSVelZStd = .3
 
 
-# Process noise model
-# note that the process covariance matrix is diag(pow(QStd,2))*dtIMU
 
-QPosXYStd = .03 # .05
-QPosZStd = .05  # .05
-QVelXYStd = .1  # .05
-QVelZStd = .1   # .1
-QYawStd = .08   # .05
-
-# GPS measurement std deviations
-GPSPosXYStd = 1
-GPSPosZStd = 100 #3
-GPSVelXYStd = .1
-GPSVelZStd = .3
-
-# Magnetometer
-MagYawStd = .1
-
-dtIMU = 0.002
-attitudeTau = 100
 
