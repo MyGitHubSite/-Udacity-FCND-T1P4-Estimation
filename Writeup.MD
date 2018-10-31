@@ -30,7 +30,7 @@ The calculated GPS Standard Deviation was 0.706 and accelerometer standard devia
 ![GPS Measurements](./images/GPS%20Measurements.png)  
  
 ![Accelerometer Measurements](./images/Accelerometer%20Measurements.png)  
-![Jupyter Notebook Used to Generate Statistics](GPS_Accelerometer_Measurements.ipynb)
+![Jupyter Notebook Used to Generate Statistics](./GPS_Accelerometer_Measurements.ipynb)
 
  *Plug in your result into the top of config/6_Sensornoise.txt. Specially, set the values for MeasuredStdDev_GPSPosXY and MeasuredStdDev_AccelXY to be the values you have calculated.*  
  
