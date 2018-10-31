@@ -172,7 +172,7 @@ Code:
 
 I updated QPosXYZStd:  
 
-    QPosXYStd = 0.03  # updated from 0.5
+    QPosXYStd = 0.03  # updated from 0.05
 
 ![Predict Covariance Before](./images/Predict_Covariance_Before.PNG)
 ![Predict Covariance After](./images/Predict_Covariance_After.PNG)  
