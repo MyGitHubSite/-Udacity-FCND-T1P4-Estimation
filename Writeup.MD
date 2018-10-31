@@ -271,15 +271,7 @@ Here is the GPS Update simulation after adding my controller from the previous p
 
 ![Step 6 GPS Update Simulation Before De-Tuning Parameters](./images/Step6_GPS_Update_Before.gif)
 
-A bit of luck of trial and error on the de-tuning - I decreased my position control gains by 50% and doubled my angle rate gains in order to pass the GPS Update.
-
-    # Position control gains
-    kpPosXY = 20 # updated from 40
-    kpPosZ = 27.5 # updated from 55
-    KiPosZ = 25 # updated from 50
-
-    # Angle rate gains
-    kpPQR = 80, 80, 20 # updated from 40, 40, 10  
+Through trial and error I de-tuned the control parameters to get the GPS update working with my previous controller.  The final de-tuned parameters are shown at the bottom of the write up.
 
 Here is the GPS Update simulation after adding my controller from the previous project and after de-tuning the control parameters:
 
@@ -296,32 +288,32 @@ The simulation passed the test:
 QuadControlParams.txt  
 
     # Position control gains
-    kpPosXY = 20 # updated from 40
-    kpPosZ = 27.5 # updated from 55
-    KiPosZ = 25 # updated from 50
+    kpPosXY = 3 # updated from 40
+    kpPosZ =  5 # updated from 55
+    KiPosZ = 15 # updated from 50
 
     # Velocity control gains
-    kpVelXY = 15
-    kpVelZ = 15
+    kpVelXY = 11 #8 # 15
+    kpVelZ = 11 #5 # 15
 
     # Angle control gains
-    kpBank = 12    
-    kpYaw = 4     
+    kpBank = 14 #12    
+    kpYaw = 2 # update from 4     
 
     # Angle rate gains
-    kpPQR = 80, 80, 20 # updated from 40, 40, 10  
+    kpPQR = 80, 80, 5 # updated from 40, 40, 10  
 
 QuadEstimatorEKF.txt  
 
-    QPosXYStd = .03  # updated from .05
+    QPosXYStd = .03  # updated from 0.05
     QPosZStd = .05
     QVelXYStd = .05
     QVelZStd = .1
-    QYawStd = .08    # updated from .05
+    QYawStd = .30  # updated from .05
 
-    # GPS measurement std deviations
+    # GPS measurement std deviations  
     GPSPosXYStd = 1
-    GPSPosZStd =  3 
+    GPSPosZStd =  3
     GPSVelXYStd = .1
     GPSVelZStd = .3
 
