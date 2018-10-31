@@ -209,7 +209,7 @@ Code:
 
 I updated QYawStd:
 
-    QYawStd = 0.08  # updated from 0.05
+    QYawStd = 0.30  # updated from 0.05
 
 ![](./images/Mag_Yaw_Error_Before.PNG)
 ![](./images/Mag_Yaw_Error_After.PNG)  
