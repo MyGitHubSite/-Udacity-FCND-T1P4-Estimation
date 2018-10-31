@@ -281,13 +281,13 @@ Here is the GPS Update simulation after adding my controller from the previous p
 
 A bit of luck of trial and error on the de-tuning - I decreased my position control gains by 50% and doubled my angle rate gains in order to pass the GPS Update.
 
-# Position control gains
-kpPosXY = 20 # updated from 40
-kpPosZ = 27.5 # updated from 55
-KiPosZ = 25 # updated from 50
+    # Position control gains
+    kpPosXY = 20 # updated from 40
+    kpPosZ = 27.5 # updated from 55
+    KiPosZ = 25 # updated from 50
 
-# Angle rate gains
-kpPQR = 80, 80, 20 # updated from 40, 40, 10  
+    # Angle rate gains
+    kpPQR = 80, 80, 20 # updated from 40, 40, 10  
 
 Here is the GPS Update simulation after adding my controller from the previous project and after de-tuning the control parameters:
 
