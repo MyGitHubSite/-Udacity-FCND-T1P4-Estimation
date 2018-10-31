@@ -3,7 +3,7 @@
 # Building an Estimator  
 
 
-![Extended Kalman Filter](./images/Extended_Kalman_Filter.PNG)  
+![Extended Kalman Filter](./images/Extended_Kalman_Filter.png)  
 
 
 In this project, the estimation portion of the controller used in the CPP simulator needs to be developed. By the end of the project, the simulated quadrotor will be flying with the estimator and the custom controller from the previous project.
