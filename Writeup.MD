@@ -252,7 +252,7 @@ Code:
 ![](./images/GPS_Update_Before.PNG)
 ![](./images/GPS_Update_After.PNG)  
 
-Abover on the left is the ___ before the GPS update and on the right is after implementation.  
+Above on the left is the ___ before the GPS update and on the right is after implementation.  
 
 Here is the simulation of the GPS update:  
 
