@@ -220,7 +220,7 @@ Here is the simulation of the magnetometer update:
 
 ![](./images/10_MagUpdate.gif)
 
-The simulation passed the trests:  
+The simulation passed the tests:  
 
 ![](./images/Mag_Update_Sim.PNG)  
 ---  
