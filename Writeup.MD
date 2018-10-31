@@ -72,9 +72,9 @@ New Code:
     Quaternion<float> qt_bar = qt;
     qt_bar.IntegrateBodyRate(gyro, dtIMU);   
 
-    float predictedRoll = qt_bar.Roll();       // Get roll from quaterion
-    float predictedPitch = qt_bar.Pitch();     // Get pitch from quaterion
-    ekfState(6) = qt_bar.Yaw();                // Get yaw from quaterion  
+    float predictedRoll = qt_bar.Roll();       // Get roll from quaternion
+    float predictedPitch = qt_bar.Pitch();     // Get pitch from quaternion
+    ekfState(6) = qt_bar.Yaw();                // Get yaw from quaternion  
 
 ![07_Attitude Error(Linear Estimation)](./images/Attitude_Error_Linear_Estimation.PNG)
 ![07_Attitude Error(Non-Linear Estimation)](./images/Attitude_Error_Non-Linear_Estimation.PNG)  
